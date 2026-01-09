@@ -11,7 +11,7 @@ db_config = {
     'host': 'database-1.c4zkewuuktd7.us-east-1.rds.amazonaws.com',
     'user': 'admin',
     'password': 'Alka1234',
-    'database': 'dev'
+    'database': 'adarsh'
 }
 
 def get_db_connection():
