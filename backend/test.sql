@@ -1,23 +1,29 @@
--- DATABASE
+-- ==========================================
+-- DATABASE: adarsh
+-- ==========================================
 CREATE DATABASE IF NOT EXISTS adarsh;
 USE adarsh;
 
+-- ==========================================
 -- USERS TABLE
+-- ==========================================
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     phone VARCHAR(15) DEFAULT NULL,
     address VARCHAR(255) DEFAULT NULL,
-    role ENUM('user', 'admin') DEFAULT 'user',
-    status ENUM('active', 'inactive') DEFAULT 'active',
+    role ENUM('user','admin') DEFAULT 'user',
+    status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_email (email),
     INDEX idx_status (status)
 );
 
--- AUTH TABLE (for login)
+-- ==========================================
+-- USER AUTH TABLE
+-- ==========================================
 CREATE TABLE IF NOT EXISTS user_auth (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -28,7 +34,9 @@ CREATE TABLE IF NOT EXISTS user_auth (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- AUDIT LOG TABLE
+-- ==========================================
+-- AUDIT LOGS TABLE
+-- ==========================================
 CREATE TABLE IF NOT EXISTS audit_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -38,7 +46,9 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- ==========================================
 -- USER ACTIVITY TABLE
+-- ==========================================
 CREATE TABLE IF NOT EXISTS user_activity (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -48,3 +58,11 @@ CREATE TABLE IF NOT EXISTS user_activity (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     INDEX idx_activity_time (activity_time)
 );
+
+-- ==========================================
+-- SAMPLE DATA (Optional)
+-- ==========================================
+INSERT INTO users (name,email,phone,address,role,status) VALUES
+('Adarsh Satpute','adarsh@example.com','9876543210','Pune, India','admin','active'),
+('John Doe','john@example.com','1234567890','Mumbai, India','user','active'),
+('Jane Smith','jane@example.com',NULL,'Delhi, India','user','inactive');
