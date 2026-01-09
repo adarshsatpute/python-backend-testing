@@ -1,20 +1,94 @@
+/* Background image with overlay */
 body {
-    background: url('https://images.unsplash.com/photo-1581091012184-81b5d64f0fef?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url('https://images.unsplash.com/photo-1601597112716-8c5ef5b8e4f3?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
     background-size: cover;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
+/* Container for table and form */
 .container {
-    background: rgba(0,0,0,0.7);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     padding: 30px;
+    max-width: 1000px;
+    margin: 40px auto;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-.table-hover tbody tr:hover {
-    transform: scale(1.01);
+/* Table hover effect */
+table.table-hover tbody tr:hover {
+    background-color: #e1f5fe;
+    transform: scale(1.02);
     transition: 0.2s;
 }
 
-h1, h3 {
-    color: #f8f9fa;
+/* Table header */
+th {
+    background-color: #0d6efd !important;
+    color: white !important;
+}
+
+/* Buttons */
+.btn-success, .btn-danger, .btn-warning {
+    font-weight: bold;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.btn-success:hover {
+    background-color: #198754;
+}
+
+.btn-danger:hover {
+    background-color: #dc3545;
+}
+
+.btn-warning:hover {
+    background-color: #ffc107;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.header img {
+    height: 60px;
+}
+
+h1 {
+    color: #fff;
+}
+
+/* Form message */
+#formMsg {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    table, thead, tbody, tr, th, td {
+        display: block;
+    }
+    th {
+        text-align: right;
+    }
+    td {
+        text-align: left;
+        padding-left: 50%;
+        position: relative;
+    }
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+    }
 }
