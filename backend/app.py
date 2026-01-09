@@ -22,13 +22,15 @@ def get_db_connection():
         print("DB Connection Error:", e)
         return None
 
+# ---------------- USERS CRUD ----------------
+
 @app.route('/users', methods=['GET'])
 def get_users():
     conn = get_db_connection()
     if not conn:
         return jsonify({"error": "DB connection failed"}), 500
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users")
+    cursor.execute("SELECT * FROM users ORDER BY id DESC")
     users = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -53,6 +55,11 @@ def add_user():
     data = request.json
     name = data.get('name')
     email = data.get('email')
+    phone = data.get('phone')
+    address = data.get('address')
+    role = data.get('role', 'user')
+    status = data.get('status', 'active')
+
     if not name or not email:
         return jsonify({'error': 'Name and Email are required'}), 400
 
@@ -61,7 +68,10 @@ def add_user():
         return jsonify({"error": "DB connection failed"}), 500
     cursor = conn.cursor()
     try:
-        cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s)", (name, email))
+        cursor.execute(
+            "INSERT INTO users (name,email,phone,address,role,status) VALUES (%s,%s,%s,%s,%s,%s)",
+            (name,email,phone,address,role,status)
+        )
         conn.commit()
         return jsonify({'message': 'User added successfully'}), 201
     except Error as err:
@@ -75,6 +85,11 @@ def update_user(user_id):
     data = request.json
     name = data.get('name')
     email = data.get('email')
+    phone = data.get('phone')
+    address = data.get('address')
+    role = data.get('role')
+    status = data.get('status')
+
     if not name or not email:
         return jsonify({'error': 'Name and Email are required'}), 400
 
@@ -86,9 +101,12 @@ def update_user(user_id):
     if not cursor.fetchone():
         return jsonify({'error': 'User not found'}), 404
     try:
-        cursor.execute("UPDATE users SET name=%s, email=%s WHERE id=%s", (name, email, user_id))
+        cursor.execute("""
+            UPDATE users SET name=%s,email=%s,phone=%s,address=%s,role=%s,status=%s
+            WHERE id=%s
+        """,(name,email,phone,address,role,status,user_id))
         conn.commit()
-        return jsonify({'message': 'User updated successfully'})
+        return jsonify({'message':'User updated successfully'})
     except Error as err:
         return jsonify({'error': str(err)}), 500
     finally:
@@ -107,7 +125,7 @@ def delete_user(user_id):
     try:
         cursor.execute("DELETE FROM users WHERE id=%s", (user_id,))
         conn.commit()
-        return jsonify({'message': 'User deleted successfully'})
+        return jsonify({'message':'User deleted successfully'})
     except Error as err:
         return jsonify({'error': str(err)}), 500
     finally:
