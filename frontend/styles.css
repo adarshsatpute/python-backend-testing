@@ -1,0 +1,20 @@
+body {
+    background: url('https://images.unsplash.com/photo-1581091012184-81b5d64f0fef?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    background: rgba(0,0,0,0.7);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.table-hover tbody tr:hover {
+    transform: scale(1.01);
+    transition: 0.2s;
+}
+
+h1, h3 {
+    color: #f8f9fa;
+}
